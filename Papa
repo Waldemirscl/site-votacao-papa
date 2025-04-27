@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Votação para Papa Brasileiro</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .candidates {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    button {
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    canvas {
+      background: white;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    @media (max-width: 600px) {
+      button {
+        font-size: 14px;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Quem deveria ser o próximo Papa Brasileiro?</h1>
+
+<div class="candidates" id="candidates"></div>
+
+<canvas id="voteChart"></canvas>
+
+<script>
+  const candidates = [
+    "Lula", "Jair Bolsonaro", "Ciro Gomes", "Marina Silva", "Fernando Haddad", "Dilma Rousseff", "João Doria", "Tarcísio de Freitas", "Eduardo Leite", "Simone Tebet",
+    "Luan Santana", "Gusttavo Lima", "Zeca Pagodinho", "Seu Jorge", "Djavan", "Belo", "Thiaguinho", "Jorge", "Ferrugem", "Alexandre Pires",
+    "Ivete Sangalo", "Anitta", "Marília Mendonça", "Alcione", "IZA", "Ludmilla", "Paula Fernandes", "Sandy", "Maria Rita", "Vanessa da Mata",
+    "Padre Marcelo Rossi", "Padre Fábio de Melo", "Padre Reginaldo Manzotti", "Padre Juarez de Castro", "Padre Antônio Maria", "Padre Zezinho", "Padre Cleidimar Moreira", "Padre Alessandro Campos", "Padre Chrystian Shankar", "Padre Robson de Oliveira",
+    "Dom Sérgio da Rocha", "Dom Odilo Pedro Scherer", "Dom Orani João Tempesta", "Dom João Braz de Aviz", "Dom Leonardo Ulrich Steiner",
+    "Xuxa Meneghel", "Silvio Santos", "Luciano Huck", "Faustão", "Rodrigo Faro", "Galvão Bueno", "Ayrton Senna", "Gisele Bündchen", "Neymar Jr.", "Pelé"
+  ];
+
+  const votes = new Array(candidates.length).fill(0);
+
+  const candidatesDiv = document.getElementById('candidates');
+
+  candidates.forEach((candidate, index) => {
+    const button = document.createElement('button');
+    button.textContent = candidate;
+    button.onclick = () => {
+      votes[index]++;
+      updateChart();
+    };
+    candidatesDiv.appendChild(button);
+  });
+
+  const ctx = document.getElementById('voteChart').getContext('2d');
+  const voteChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: candidates,
+      datasets: [{
+        label: 'Votos',
+        data: votes,
+        backgroundColor: 'rgba(75, 192, 192, 0.7)',
+        borderColor: 'rgba(75, 192, 192, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      scales: {
+        x: {
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: { enabled: true }
+      }
+    }
+  });
+
+  function updateChart() {
+    voteChart.update();
+  }
+</script>
+
+</body>
+</html>
